@@ -1,0 +1,589 @@
+<html lang="zh-CN"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>土壤保卫战 - 动画小课堂</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        soil: {
+                            light: '#E8C79E',
+                            DEFAULT: '#C2946A',
+                            dark: '#8B5A2B'
+                        },
+                        grass: {
+                            light: '#A7F3D0',
+                            DEFAULT: '#4ADE80',
+                            dark: '#166534'
+                        },
+                        sky: '#BAE6FD'
+                    },
+                    fontFamily: {
+                        cartoon: ['"Comic Sans MS"', '"Marker Felt"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .animate-float {
+                animation: float 3s ease-in-out infinite;
+            }
+            .animate-bounce-slow {
+                animation: bounce 3s infinite;
+            }
+            .animate-grow {
+                animation: grow 2s ease-in-out forwards;
+            }
+            .animate-wiggle {
+                animation: wiggle 1s ease-in-out infinite;
+            }
+            .speech-bubble {
+                position: relative;
+                background: white;
+                border-radius: 2rem;
+            }
+            .speech-bubble::after {
+                content: '';
+                position: absolute;
+                bottom: -15px;
+                left: 50%;
+                transform: translateX(-50%);
+                border: 15px solid transparent;
+                border-top-color: white;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes grow {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+    </style>
+</head>
+<body class="bg-sky min-h-screen font-cartoon text-gray-800 overflow-x-hidden">
+    <!-- 页面加载动画 -->
+    <div id="loader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-sky">
+        <div class="w-32 h-32 rounded-full bg-soil animate-pulse mb-4"></div>
+        <p class="text-2xl font-bold">土壤保卫战即将开始...</p>
+    </div>
+
+    <!-- 主容器 -->
+    <div id="main-content" class="hidden">
+        <!-- 顶部导航 -->
+        <header class="sticky top-0 z-40 bg-white/80 backdrop-blur-sm shadow-md py-3 px-4">
+            <div class="container mx-auto flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <img src="https://picsum.photos/id/106/50/50" alt="土壤卫士" class="w-10 h-10 rounded-full">
+                    <h1 class="text-xl md:text-2xl font-bold">土壤保卫战</h1>
+                </div>
+                <nav class="hidden md:flex gap-6">
+                    <button class="nav-btn active" data-target="home">首页</button>
+                    <button class="nav-btn" data-target="family">家庭防护</button>
+                    <button class="nav-btn" data-target="school">校园妙招</button>
+                    <button class="nav-btn" data-target="farm">农田保护</button>
+                </nav>
+                <button id="mobile-menu-btn" class="md:hidden text-xl">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+            <!-- 移动端菜单 -->
+            <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 right-0 bg-white shadow-lg py-2 px-4 flex flex-col gap-3">
+                <button class="nav-btn active" data-target="home">首页</button>
+                <button class="nav-btn" data-target="family">家庭防护</button>
+                <button class="nav-btn" data-target="school">校园妙招</button>
+                <button class="nav-btn" data-target="farm">农田保护</button>
+            </div>
+        </header>
+
+        <!-- 首页场景 -->
+        <section id="home" class="scene active min-h-[80vh] flex flex-col items-center justify-center p-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 animate-grow">土壤小卫士阿土的使命</h2>
+                
+                <div class="relative bg-white rounded-3xl shadow-xl p-6 mb-8 animate-grow">
+                    <!-- 阿土角色 -->
+                    <div class="w-32 h-32 mx-auto mb-4 animate-float">
+                        <img src="https://picsum.photos/id/1074/200/200" alt="土壤精灵阿土" class="w-full h-full object-cover rounded-full border-4 border-soil">
+                    </div>
+                    
+                    <!-- 对话气泡 -->
+                    <div class="speech-bubble p-6 max-w-md mx-auto">
+                        <p class="text-lg">嗨！我是土壤精灵阿土～ 最近我的家园被污染了，快来和我一起学习保护土壤的妙招，拯救地球妈妈的皮肤吧！</p>
+                    </div>
+                </div>
+                
+                <!-- 开始按钮 -->
+                <button id="start-btn" class="bg-grass hover:bg-grass-dark text-white font-bold py-3 px-8 rounded-full text-xl shadow-lg transform transition hover:scale-105 animate-bounce-slow">
+                    开始冒险 <i class="fa fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- 家庭防护场景 -->
+        <section id="family" class="scene hidden min-h-[80vh] p-4">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold mb-6 text-center">家庭防护站</h2>
+                
+                <div class="bg-white rounded-3xl shadow-xl p-6 mb-8">
+                    <div class="flex flex-col md:flex-row gap-6 items-center">
+                        <!-- 动画区域 -->
+                        <div class="w-full md:w-1/2 relative h-64 bg-soil/20 rounded-2xl overflow-hidden">
+                            <img id="family-animation" src="https://picsum.photos/id/131/600/400" alt="家庭垃圾分类" class="w-full h-full object-cover">
+                            <div id="trash-animation" class="hidden absolute inset-0 flex items-center justify-center">
+                                <div class="grid grid-cols-2 gap-4 p-4">
+                                    <div class="bg-red-100 p-3 rounded-xl text-center">
+                                        <i class="fa fa-battery-full text-2xl text-red-500 mb-2"></i>
+                                        <p>有害垃圾</p>
+                                    </div>
+                                    <div class="bg-green-100 p-3 rounded-xl text-center">
+                                        <i class="fa fa-leaf text-2xl text-green-500 mb-2"></i>
+                                        <p>厨余垃圾</p>
+                                    </div>
+                                    <div class="bg-blue-100 p-3 rounded-xl text-center">
+                                        <i class="fa fa-recycle text-2xl text-blue-500 mb-2"></i>
+                                        <p>可回收物</p>
+                                    </div>
+                                    <div class="bg-gray-100 p-3 rounded-xl text-center">
+                                        <i class="fa fa-trash text-2xl text-gray-500 mb-2"></i>
+                                        <p>其他垃圾</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 内容区域 -->
+                        <div class="w-full md:w-1/2">
+                            <h3 class="text-2xl font-bold mb-3">家庭小妙招</h3>
+                            <ul class="space-y-3">
+                                <li class="flex items-start gap-2">
+                                    <i class="fa fa-check-circle text-grass-dark mt-1"></i>
+                                    <span>将废旧电池、过期药品放入专门的有害垃圾桶</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa fa-check-circle text-grass-dark mt-1"></i>
+                                    <span>用菜叶、果皮做堆肥，变成天然肥料</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa fa-check-circle text-grass-dark mt-1"></i>
+                                    <span>减少使用塑料袋，用布袋代替</span>
+                                </li>
+                            </ul>
+                            
+                            <button id="family-game-btn" class="mt-4 bg-soil hover:bg-soil-dark text-white py-2 px-4 rounded-full transition">
+                                玩垃圾分类小游戏 <i class="fa fa-gamepad ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 导航按钮 -->
+                <div class="flex justify-between">
+                    <button class="prev-btn bg-gray-200 hover:bg-gray-300 py-2 px-6 rounded-full">
+                        <i class="fa fa-arrow-left mr-2"></i> 上一页
+                    </button>
+                    <button class="next-btn bg-grass hover:bg-grass-dark text-white py-2 px-6 rounded-full">
+                        下一页 <i class="fa fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 校园妙招场景 -->
+        <section id="school" class="scene hidden min-h-[80vh] p-4">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold mb-6 text-center">校园守护站</h2>
+                
+                <div class="bg-white rounded-3xl shadow-xl p-6 mb-8">
+                    <div class="flex flex-col md:flex-row gap-6 items-center">
+                        <!-- 内容区域 -->
+                        <div class="w-full md:w-1/2">
+                            <h3 class="text-2xl font-bold mb-3">校园行动指南</h3>
+                            <ul class="space-y-3">
+                                <li class="flex items-start gap-2">
+                                    <i class="fa fa-check-circle text-grass-dark mt-1"></i>
+                                    <span>在花坛种植三叶草，帮助土壤恢复肥力</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa fa-check-circle text-grass-dark mt-1"></i>
+                                    <span>设置土壤保护角，正确分类回收垃圾</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa fa-check-circle text-grass-dark mt-1"></i>
+                                    <span>制作环保宣传画，提醒大家保护土壤</span>
+                                </li>
+                            </ul>
+                            
+                            <button id="draw-btn" class="mt-4 bg-soil hover:bg-soil-dark text-white py-2 px-4 rounded-full transition">
+                                画一幅宣传画 <i class="fa fa-paint-brush ml-1"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- 动画区域 -->
+                        <div class="w-full md:w-1/2 relative h-64 bg-grass/20 rounded-2xl overflow-hidden">
+                            <img id="school-animation" src="https://picsum.photos/id/152/600/400" alt="校园花坛" class="w-full h-full object-cover">
+                            <div id="drawing-area" class="hidden absolute inset-0 bg-white/90 p-4">
+                                <h4 class="text-center mb-2">我的土壤保护宣传画</h4>
+                                <div class="border-2 border-gray-300 rounded-lg h-40 mb-2" id="canvas"></div>
+                                <div class="flex gap-2 justify-center">
+                                    <button class="w-6 h-6 rounded-full bg-red-500" data-color="red"></button>
+                                    <button class="w-6 h-6 rounded-full bg-green-500" data-color="green"></button>
+                                    <button class="w-6 h-6 rounded-full bg-blue-500" data-color="blue"></button>
+                                    <button class="w-6 h-6 rounded-full bg-yellow-500" data-color="yellow"></button>
+                                    <button id="clear-draw" class="text-sm bg-gray-200 px-2 py-1 rounded">清除</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 导航按钮 -->
+                <div class="flex justify-between">
+                    <button class="prev-btn bg-gray-200 hover:bg-gray-300 py-2 px-6 rounded-full">
+                        <i class="fa fa-arrow-left mr-2"></i> 上一页
+                    </button>
+                    <button class="next-btn bg-grass hover:bg-grass-dark text-white py-2 px-6 rounded-full">
+                        下一页 <i class="fa fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 农田保护场景 -->
+        <section id="farm" class="scene hidden min-h-[80vh] p-4">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold mb-6 text-center">农田防护站</h2>
+                
+                <div class="bg-white rounded-3xl shadow-xl p-6 mb-8">
+                    <div class="flex flex-col md:flex-row gap-6 items-center">
+                        <!-- 动画区域 -->
+                        <div class="w-full md:w-1/2 relative h-64 bg-soil/30 rounded-2xl overflow-hidden">
+                            <img id="farm-animation" src="https://picsum.photos/id/292/600/400" alt="农田场景" class="w-full h-full object-cover">
+                            <div id="tool-selection" class="hidden absolute inset-0 bg-white/80 p-4 flex flex-col">
+                                <h4 class="text-center mb-4">选择正确的农具</h4>
+                                <div class="grid grid-cols-2 gap-4 flex-grow">
+                                    <div class="tool-option border-2 border-gray-300 rounded-lg p-2 text-center hover:border-red-500 cursor-pointer" data-correct="false">
+                                        <i class="fa fa-spray-can text-3xl text-red-500 mb-2"></i>
+                                        <p>化学农药</p>
+                                    </div>
+                                    <div class="tool-option border-2 border-gray-300 rounded-lg p-2 text-center hover:border-green-500 cursor-pointer" data-correct="true">
+                                        <i class="fa fa-bug text-3xl text-green-500 mb-2"></i>
+                                        <p>生物防治</p>
+                                    </div>
+                                    <div class="tool-option border-2 border-gray-300 rounded-lg p-2 text-center hover:border-red-500 cursor-pointer" data-correct="false">
+                                        <i class="fa fa-flask text-3xl text-red-500 mb-2"></i>
+                                        <p>化学肥料</p>
+                                    </div>
+                                    <div class="tool-option border-2 border-gray-300 rounded-lg p-2 text-center hover:border-green-500 cursor-pointer" data-correct="true">
+                                        <i class="fa fa-leaf text-3xl text-green-500 mb-2"></i>
+                                        <p>有机肥料</p>
+                                    </div>
+                                </div>
+                                <div id="tool-result" class="mt-2 text-center hidden"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- 内容区域 -->
+                        <div class="w-full md:w-1/2">
+                            <h3 class="text-2xl font-bold mb-3">农田保护方法</h3>
+                            <ul class="space-y-3">
+                                <li class="flex items-start gap-2">
+                                    <i class="fa fa-check-circle text-grass-dark mt-1"></i>
+                                    <span>使用有机肥料，减少化学肥料使用</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa fa-check-circle text-grass-dark mt-1"></i>
+                                    <span>利用瓢虫等益虫防治害虫，减少农药</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa fa-check-circle text-grass-dark mt-1"></i>
+                                    <span>轮流种植不同作物，让土壤休息恢复</span>
+                                </li>
+                            </ul>
+                            
+                            <button id="tool-game-btn" class="mt-4 bg-soil hover:bg-soil-dark text-white py-2 px-4 rounded-full transition">
+                                选择正确的农具 <i class="fa fa-wrench ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 完成承诺 -->
+                <div class="bg-grass/20 rounded-3xl p-6 mb-8">
+                    <h3 class="text-2xl font-bold mb-4 text-center">我的土壤保护承诺</h3>
+                    <div class="flex flex-col items-center">
+                        <div class="w-full max-w-md mb-4">
+                            <select id="promise" class="w-full p-3 rounded-xl border-2 border-soil">
+                                <option value="">选择一项你能做到的事</option>
+                                <option value="分类垃圾">在家做好垃圾分类</option>
+                                <option value="种植植物">在校园种植小植物</option>
+                                <option value="宣传环保">向家人宣传保护土壤</option>
+                                <option value="节约资源">减少使用一次性用品</option>
+                            </select>
+                        </div>
+                        <button id="make-promise" class="bg-grass hover:bg-grass-dark text-white font-bold py-2 px-6 rounded-full transition">
+                            许下承诺 <i class="fa fa-heart ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 导航按钮 -->
+                <div class="flex justify-between">
+                    <button class="prev-btn bg-gray-200 hover:bg-gray-300 py-2 px-6 rounded-full">
+                        <i class="fa fa-arrow-left mr-2"></i> 上一页
+                    </button>
+                    <button class="back-home bg-soil hover:bg-soil-dark text-white py-2 px-6 rounded-full">
+                        返回首页 <i class="fa fa-home ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 承诺弹窗 -->
+        <div id="promise-modal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center">
+            <div class="bg-white rounded-3xl p-8 max-w-md w-full mx-4 text-center animate-grow">
+                <div class="w-20 h-20 bg-grass rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fa fa-trophy text-white text-3xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-2">太棒了！</h3>
+                <p class="mb-6" id="promise-text">你承诺要做好垃圾分类，成为优秀的土壤小卫士！</p>
+                <button id="close-modal" class="bg-soil hover:bg-soil-dark text-white py-2 px-6 rounded-full">
+                    完成 <i class="fa fa-check ml-1"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <footer class="bg-soil-dark text-white py-6 px-4 text-center">
+            <p>土壤保卫战 2025</p>
+            <p class="text-sm mt-2">保护土壤，从我做起</p>
+        </footer>
+    </div>
+
+    <script>
+        // 页面加载
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('opacity-0', 'transition-opacity', 'duration-500');
+                setTimeout(() => {
+                    document.getElementById('loader').classList.add('hidden');
+                    document.getElementById('main-content').classList.remove('hidden');
+                }, 500);
+            }, 1500);
+        });
+
+        // 导航功能
+        const navBtns = document.querySelectorAll('.nav-btn');
+        const scenes = document.querySelectorAll('.scene');
+        const nextBtns = document.querySelectorAll('.next-btn');
+        const prevBtns = document.querySelectorAll('.prev-btn');
+        const backHomeBtn = document.querySelector('.back-home');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const startBtn = document.getElementById('start-btn');
+
+        // 切换场景函数
+        function showScene(targetId) {
+            scenes.forEach(scene => scene.classList.add('hidden', 'active'));
+            navBtns.forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[data-target="${targetId}"]`).classList.add('active');
+            document.getElementById(targetId).classList.remove('hidden');
+            document.getElementById(targetId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // 导航按钮点击
+        navBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                showScene(btn.dataset.target);
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // 下一页按钮
+        nextBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const currentScene = btn.closest('.scene');
+                const currentId = currentScene.id;
+                
+                if (currentId === 'home') showScene('family');
+                else if (currentId === 'family') showScene('school');
+                else if (currentId === 'school') showScene('farm');
+            });
+        });
+
+        // 上一页按钮
+        prevBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const currentScene = btn.closest('.scene');
+                const currentId = currentScene.id;
+                
+                if (currentId === 'family') showScene('home');
+                else if (currentId === 'school') showScene('family');
+                else if (currentId === 'farm') showScene('school');
+            });
+        });
+
+        // 返回首页
+        backHomeBtn.addEventListener('click', () => showScene('home'));
+
+        // 开始按钮
+        startBtn.addEventListener('click', () => showScene('family'));
+
+        // 移动端菜单
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // 家庭场景游戏
+        const familyGameBtn = document.getElementById('family-game-btn');
+        const familyAnimation = document.getElementById('family-animation');
+        const trashAnimation = document.getElementById('trash-animation');
+
+        familyGameBtn.addEventListener('click', () => {
+            familyAnimation.classList.add('hidden');
+            trashAnimation.classList.remove('hidden');
+            
+            // 简单的垃圾分类互动
+            const trashItems = ['电池', '菜叶', '塑料瓶', '废纸', '过期药品', '果皮'];
+            const trashContainer = document.createElement('div');
+            trashContainer.className = 'absolute bottom-4 left-0 right-0 flex justify-center gap-2 flex-wrap';
+            trashAnimation.appendChild(trashContainer);
+            
+            trashItems.forEach(item => {
+                const trash = document.createElement('div');
+                trash.className = 'bg-white px-3 py-1 rounded-full text-sm shadow cursor-move';
+                trash.textContent = item;
+                trash.draggable = true;
+                trashContainer.appendChild(trash);
+            });
+        });
+
+        // 绘画功能
+        const drawBtn = document.getElementById('draw-btn');
+        const schoolAnimation = document.getElementById('school-animation');
+        const drawingArea = document.getElementById('drawing-area');
+        const canvas = document.getElementById('canvas');
+        const colorBtns = document.querySelectorAll('[data-color]');
+        const clearDrawBtn = document.getElementById('clear-draw');
+        let currentColor = 'black';
+        let isDrawing = false;
+
+        drawBtn.addEventListener('click', () => {
+            schoolAnimation.classList.add('hidden');
+            drawingArea.classList.remove('hidden');
+        });
+
+        colorBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentColor = btn.dataset.color;
+            });
+        });
+
+        clearDrawBtn.addEventListener('click', () => {
+            canvas.innerHTML = '';
+        });
+
+        // 简单的绘画功能
+        canvas.addEventListener('mousedown', (e) => {
+            isDrawing = true;
+            const dot = document.createElement('div');
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            dot.className = 'absolute rounded-full';
+            dot.style.width = '10px';
+            dot.style.height = '10px';
+            dot.style.backgroundColor = currentColor;
+            dot.style.left = `${x}px`;
+            dot.style.top = `${y}px`;
+            canvas.appendChild(dot);
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (!isDrawing) return;
+            const dot = document.createElement('div');
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            dot.className = 'absolute rounded-full';
+            dot.style.width = '10px';
+            dot.style.height = '10px';
+            dot.style.backgroundColor = currentColor;
+            dot.style.left = `${x}px`;
+            dot.style.top = `${y}px`;
+            canvas.appendChild(dot);
+        });
+
+        canvas.addEventListener('mouseup', () => isDrawing = false);
+        canvas.addEventListener('mouseleave', () => isDrawing = false);
+
+        // 农具选择游戏
+        const toolGameBtn = document.getElementById('tool-game-btn');
+        const farmAnimation = document.getElementById('farm-animation');
+        const toolSelection = document.getElementById('tool-selection');
+        const toolOptions = document.querySelectorAll('.tool-option');
+        const toolResult = document.getElementById('tool-result');
+
+        toolGameBtn.addEventListener('click', () => {
+            farmAnimation.classList.add('hidden');
+            toolSelection.classList.remove('hidden');
+        });
+
+        toolOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                toolOptions.forEach(opt => opt.classList.remove('border-green-500', 'border-red-500'));
+                
+                if (option.dataset.correct === 'true') {
+                    option.classList.add('border-green-500');
+                    toolResult.textContent = '太棒了！这是保护土壤的好选择！';
+                    toolResult.className = 'mt-2 text-center text-green-600';
+                } else {
+                    option.classList.add('border-red-500');
+                    toolResult.textContent = '这个会伤害土壤哦，再试试！';
+                    toolResult.className = 'mt-2 text-center text-red-600';
+                }
+                
+                toolResult.classList.remove('hidden');
+            });
+        });
+
+        // 承诺弹窗
+        const makePromiseBtn = document.getElementById('make-promise');
+        const promiseModal = document.getElementById('promise-modal');
+        const promiseText = document.getElementById('promise-text');
+        const closeModalBtn = document.getElementById('close-modal');
+        const promiseSelect = document.getElementById('promise');
+
+        makePromiseBtn.addEventListener('click', () => {
+            if (!promiseSelect.value) {
+                alert('请先选择一项承诺');
+                return;
+            }
+            
+            promiseText.textContent = `你承诺要${promiseSelect.value}，成为优秀的土壤小卫士！`;
+            promiseModal.classList.remove('hidden');
+            promiseModal.classList.add('flex');
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            promiseModal.classList.add('hidden');
+            promiseModal.classList.remove('flex');
+        });
+    </script>
+
+
+</body></html>
